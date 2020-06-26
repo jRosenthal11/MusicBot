@@ -1,8 +1,8 @@
 {
   "name": "musicbot",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
+  "description": "Discord bot that plays music",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node dist/index.js",
@@ -13,19 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^14.0.14",
-    "discord.js": "github:discordjs/discord.js",
-    "dotenv": "^8.2.0",
-    "eslint": "^7.3.1",
-    "inversify": "^5.0.1",
-    "reflect-metadata": "^0.1.13",
+    "discord.js": "^12.2.0",
     "typescript": "^3.9.5"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/mocha": "^7.0.2",
-    "chai": "^4.2.0",
-    "mocha": "^8.0.1",
-    "ts-mockito": "^2.6.1",
-    "ts-node": "^8.10.2"
   }
 }

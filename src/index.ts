@@ -1,5 +1,5 @@
-import { Client } from 'discord.js';
-import { prefix, token } from './config';
+import { Client, Message } from 'discord.js';
+import { Prefix, Token } from './Config';
 
 // login to Discord with your app's token
 const client = new Client();
@@ -9,9 +9,9 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-    if (msg.content === prefix.commandPrefix + 'wow') {
+    if (msg.content === Prefix + 'wow') {
         msg.reply('Pong!');
     }
 });
 
-client.login(token.token);
+client.login(Token);
