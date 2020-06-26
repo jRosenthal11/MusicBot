@@ -104,7 +104,7 @@ dist
 .tern-port
 
 # Configuration
-conf.json
+src/*.json
 
 # VsCode
 *.code-workspace
