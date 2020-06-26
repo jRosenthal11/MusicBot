@@ -1,6 +1,5 @@
-import * as apiToken from '../conf.json';
-import * as commandPrefix from '../conf.json'
+import { commandPrefix } from './config.json';
+import { apiToken } from './config.json';
 
-export const prefix = commandPrefix;
-export const owners: string[] = [];
-export const token = apiToken;
+export const Prefix: string = commandPrefix;
+export const Token: string = apiToken;
