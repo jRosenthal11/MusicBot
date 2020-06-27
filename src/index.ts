@@ -1,5 +1,5 @@
 import { Client, Message } from 'discord.js';
-import { prefix, token, commandURL } from './config';
+import { prefix, token, commandURL } from './Config';
 import ytdl = require('ytdl-core');
 
 // login to Discord with your app's token
