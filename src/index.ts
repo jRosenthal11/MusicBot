@@ -21,18 +21,18 @@ client.once("shardDisconnect", (event, shardID) => {
 client.on('message', msg => {
     if (msg.author.bot) {
         return;
-    }
-    if (!msg.content.startsWith(prefix)) {
+    } else if (!msg.content.startsWith(prefix)) {
         return;
-    }
-    if (msg.content.startsWith(`${prefix}play`)) {
+    } else if (msg.content.startsWith(`${prefix}play`)) {
 
-    }
-    if (msg.content.startsWith(`${prefix}skip`)) {
+    } else if (msg.content.startsWith(`${prefix}skip`)) {
 
-    }
-    if (msg.content.startsWith(`${prefix}stop`)) {
-        return
+    } else if (msg.content.startsWith(`${prefix}stop`)) {
+        return;
+    } else if (msg.content.startsWith(`${prefix}help`)) {
+        msg.channel.send('')
+    } else {
+        msg.channel.send("You need to enter a valid command");
     }
 });
 
