@@ -1,5 +1,5 @@
 import { Client, Message } from 'discord.js';
-import { prefix, token } from './Config';
+import { prefix, token, commandURL } from './Config';
 import ytdl = require('ytdl-core');
 
 // login to Discord with your app's token
@@ -30,9 +30,9 @@ client.on('message', msg => {
     } else if (msg.content.startsWith(`${prefix}stop`)) {
         return;
     } else if (msg.content.startsWith(`${prefix}help`)) {
-        msg.channel.send('')
+        msg.channel.send('https://jrosenthal11.github.io/');
     } else {
-        msg.channel.send("You need to enter a valid command");
+        msg.channel.send(commandURL);
     }
 });
 
