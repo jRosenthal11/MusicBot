@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Discord bot that plays music",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "node dist/index.js",
     "watch": "tsc -p tsconfig.json -w",
@@ -12,11 +11,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "@types/node": "^14.0.14",
+    "commonjs": "0.0.1",
     "discord.js": "^12.2.0",
     "ffmpeg": "0.0.4",
     "fluent-ffmpeg": "^2.1.2",
+    "tslib": "^2.0.0",
     "typescript": "^3.9.5",
     "ytdl-core": "^2.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-google": "^0.14.0"
   }
 }
