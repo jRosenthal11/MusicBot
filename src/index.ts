@@ -1,4 +1,4 @@
-import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed } from 'discord.js';
+import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed, User } from 'discord.js';
 import { prefix, token, commandURL } from './Config';
 import ytdl = require('ytdl-core');
 import { Song } from './models/Song';
@@ -9,6 +9,7 @@ import { SongQueue } from './models/SongQueue';
 const client = new Client();
 const songQueue: SongQueue = {};
 let totalVotes = 0;
+let skipMsg: User[] = [];
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -38,7 +39,7 @@ client.on('message', msg => {
     } else if (msg.content.startsWith(`${prefix}:`)) {
         stop(msg, serverQueue);
         return;
-    } else if (msg.content.startsWith(`${prefix}f:`)) {
+    } else if (msg.content.startsWith(`${prefix}f>`)) {
         forceSkip(msg, serverQueue);
         return;
     } else if (msg.content.startsWith(`${prefix}help`)) {
@@ -65,6 +66,9 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
     const permissions = voiceChannel.permissionsFor(msg.client.user);
     if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
         return msg.channel.send("I need permissions to join the channel");
+    }
+    if (!songURL[1]) {
+        return msg.channel.send('You did not provide a url for the song. !test <songURL>');
     }
     const songInfo = await ytdl.getInfo(songURL[1]);
 
@@ -129,23 +133,27 @@ async function forceSkip(msg: Message, serverQueue: Queue) {
 }
 
 async function skip(msg: Message, serverQueue: Queue) {
-
     if (!msg.member.voice.channel) {
         return msg.channel.send('You must be in a voice channel to skip a song!');
     }
     if (serverQueue.songs.length === 1) {
         return msg.channel.send('There is no song in the queue to skip!');
     } else {
-        totalVotes++;
-        if (totalVotes === 3) {
-            serverQueue.connection.dispatcher.end();
-            totalVotes = 0;
-            msg.channel.send(`Song skipped`);
-            return;
+        if (skipMsg.includes(msg.author)) {
+            return msg.channel.send(`You can not vote twice \`${msg.author.username}\``);
+        } else {
+            skipMsg.push(msg.author);
+            totalVotes++;
+            if (totalVotes === 3) {
+                serverQueue.connection.dispatcher.end();
+                totalVotes = 0;
+                msg.channel.send(`Song skipped`);
+                return;
+            }
         }
+
         msg.channel.send(`To skip this song you need 3 votes. **Total votes**: \`${totalVotes}/3\``);
     }
-
 
 }
 function stop(msg: Message, serverQueue: Queue) {
