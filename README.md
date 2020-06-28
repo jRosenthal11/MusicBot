@@ -34,7 +34,6 @@ The file should look like this
 
 
 
-
  # Commands
 
 All commands will start with the prefix `!` unless you specify a different identifier in your `config.json`.
