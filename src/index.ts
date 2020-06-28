@@ -147,6 +147,7 @@ async function skip(msg: Message, serverQueue: Queue) {
             if (totalVotes === 3) {
                 serverQueue.connection.dispatcher.end();
                 totalVotes = 0;
+                skipMsg = [];
                 msg.channel.send(`Song skipped`);
                 return;
             }
