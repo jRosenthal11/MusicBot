@@ -1,4 +1,4 @@
-import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher } from 'discord.js';
+import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed } from 'discord.js';
 import { prefix, token, commandURL } from './Config';
 import ytdl = require('ytdl-core');
 import { Song } from './models/Song';
@@ -42,7 +42,12 @@ client.on('message', msg => {
         forceSkip(msg, serverQueue);
         return;
     } else if (msg.content.startsWith(`${prefix}help`)) {
-        msg.channel.send(`:page_facing_up: Click [here](${commandURL}) for the list of commands`);
+        const embededMessage: MessageEmbed = new MessageEmbed();
+        embededMessage.setColor('#0099ff')
+            .setTitle('Click here')
+            .setURL(`${commandURL}`)
+            .setDescription('To see the list of commands')
+        msg.channel.send(embededMessage);
         return;
     } else {
         msg.channel.send('You need to enter a valid command!');
