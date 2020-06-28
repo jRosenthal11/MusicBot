@@ -1,37 +1,48 @@
-## Welcome to GitHub Pages
+## Music Bot
 
-You can use the [editor on GitHub](https://github.com/jRosenthal11/MusicBot/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This bot is open source so you can download the code and setup your own bot on your server.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+After downloading the git repository you will need to install:
+ 
+ 1. Node Js
+ 1. npm
+ 1. ffmpeg
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+ After you have those installed navigate to the root directory of the project and type `npm install`.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+ After the dependencies installed you will need to create a json file named `config.json` in the `src` directory of the project.
 
-- Bulleted
-- List
+The file should look like this
 
-1. Numbered
-2. List
 
-**Bold** and _Italic_ and `Code` text
+`config.json`
+ ```
+ {
+    "apiToken": "",
+    "commandPrefix": "!",
+    "helpURL": "",
+    "fsPermissions": ""
+}
+ ```
 
-[Link](url) and ![Image](src)
-```
+ Once all the depndencies are installed type `tsc`. This will transpile the Typescript project down to Javascript to allow the project to run. Once that completes you are ready to launch the bot.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+ Type `npm run start` and your bot will start up and start listening to commands!
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jRosenthal11/MusicBot/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+ # Commands
+
+All commands will start with the prefix `!` unless you specify a different identifier in your `config.json`.
+
+ 1. `!play <url>`: Play will add a song to the queue and begin playing the song in the voice channel you are in.
+
+ 1. `!skip`: With 3 votes you are able to skip the current song that is playing. However, if there is only 1 song in the queue you will not be able to skip it.
+
+ 1. `!fs`: Force skip will bypass the voting system to skip a song. (Only a user with specific privileges specified in the config.json will be able to force skip). Force skipping will also skip a song even if it is the last one in the queue and disconnect the bot from the channel.
+
+ 1. `!stop`: Stop will disconnect the bot from the current voice channel and clear the song queue.

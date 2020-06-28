@@ -8,6 +8,7 @@ import { SongQueue } from './models/SongQueue';
 // login to Discord with your app's token
 const client = new Client();
 const songQueue: SongQueue = {};
+let totalVotes = 0;
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -28,7 +29,6 @@ client.on('message', msg => {
         return;
     }
     const serverQueue: Queue = songQueue[msg.guild.id];
-
     if (msg.content.startsWith(`${prefix}test`)) {
         executeCommand(msg, serverQueue);
         return;
@@ -37,6 +37,9 @@ client.on('message', msg => {
         return;
     } else if (msg.content.startsWith(`${prefix}:`)) {
         stop(msg, serverQueue);
+        return;
+    } else if (msg.content.startsWith(`${prefix}f:`)) {
+        forceSkip(msg, serverQueue);
         return;
     } else if (msg.content.startsWith(`${prefix}help`)) {
         msg.channel.send(`:page_facing_up: Click [here](${commandURL}) for the list of commands`);
@@ -49,6 +52,7 @@ client.on('message', msg => {
 
 async function executeCommand(msg: Message, serverQueue: Queue) {
     const songURL = msg.content.split(" ");
+    const textChannel: TextChannel = msg.channel as TextChannel;
     const voiceChannel: VoiceChannel = msg.member.voice.channel;
     if (!voiceChannel) {
         return msg.channel.send('You need to be in a voice channel to play music!');
@@ -66,7 +70,7 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
 
     if (!serverQueue) {
         const queue: Queue = {
-            textChannel: msg.channel as TextChannel,
+            textChannel: textChannel,
             voiceChannel: voiceChannel,
             playing: true,
             songs: [],
@@ -75,7 +79,6 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
         };
         songQueue[msg.guild.id] = queue;
         queue.songs.push(song);
-        const textChannel: TextChannel = msg.channel as TextChannel;
         try {
             let connection = await voiceChannel.join();
             queue.connection = connection;
@@ -111,17 +114,34 @@ async function play(guild: Guild, song: Song) {
         })
         .on("error", error => console.error(error));
     playSong.setVolumeLogarithmic(serverQueue.volume / 5);
-    serverQueue.textChannel.send(`\n**Start playing**: ${song.title}`);
+    serverQueue.textChannel.send(`\n\n**Start playing**: ${song.title}`);
+}
+async function forceSkip(msg: Message, serverQueue: Queue) {
+    if (!msg.member.voice.channel) {
+        return msg.channel.send('You must be in a voice channel to skip a song');
+    }
+    serverQueue.connection.dispatcher.end();
 }
 
 async function skip(msg: Message, serverQueue: Queue) {
+
     if (!msg.member.voice.channel) {
-        return msg.channel.send('You must be in a voice channle to skip a song!');
+        return msg.channel.send('You must be in a voice channel to skip a song!');
     }
-    if (!serverQueue) {
+    if (serverQueue.songs.length === 1) {
         return msg.channel.send('There is no song in the queue to skip!');
+    } else {
+        totalVotes++;
+        if (totalVotes === 3) {
+            serverQueue.connection.dispatcher.end();
+            totalVotes = 0;
+            msg.channel.send(`Song skipped`);
+            return;
+        }
+        msg.channel.send(`To skip this song you need 3 votes. **Total votes**: \`${totalVotes}/3\``);
     }
-    serverQueue.connection.dispatcher.end();
+
+
 }
 function stop(msg: Message, serverQueue: Queue) {
     if (!msg.member.voice.channel)
