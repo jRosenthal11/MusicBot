@@ -105,10 +105,10 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
             return msg.channel.send(error);
         }
     } else {
-        let inQueue = true;
+        let inQueue: boolean;
         for (const s of serverQueue.songs) {
             if (s.title === song.title && s.url === song.url) {
-                return msg.channel.send(`**${song.messageAuthor}** already added \`${song.title}\` to the queue. Please add a different song`);
+                inQueue = true;
             } else {
                 inQueue = false;
             }
@@ -116,6 +116,8 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
         if (!inQueue) {
             serverQueue.songs.push(song);
             return msg.channel.send(`**${song.title}** has been added to the queue!`);
+        } else {
+            return msg.channel.send(`**${song.messageAuthor}** already added \`${song.title}\` to the queue. Please add a different song`);
         }
     }
 
