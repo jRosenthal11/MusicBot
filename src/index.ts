@@ -24,11 +24,10 @@ client.once("shardDisconnect", (event, shardID) => {
 
 
 client.on('message', msg => {
-    if (msg.author.bot) {
-        return;
-    } else if (!msg.content.startsWith(prefix)) {
+    if (msg.author.bot || !msg.content.startsWith(prefix)) {
         return;
     }
+
     const serverQueue: Queue = songQueue[msg.guild.id];
     if (msg.content.startsWith(`${prefix}test`)) {
         executeCommand(msg, serverQueue);
@@ -47,9 +46,12 @@ client.on('message', msg => {
         embededMessage.setColor('#0099ff')
             .setTitle('Click here')
             .setURL(`${commandURL}`)
-            .setDescription('To see the list of commands')
+            .setDescription('To see the list of commands');
         msg.channel.send(embededMessage);
         return;
+    } else if (msg.content.startsWith(`${prefix}q`)) {
+        queue(msg, serverQueue);
+
     } else {
         msg.channel.send('You need to enter a valid command!');
     }
@@ -74,11 +76,12 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
 
     const song: Song = {
         title: songInfo.title,
-        url: songInfo.video_url
+        url: songInfo.video_url,
+        messageAuthor: msg.author.username
     };
 
     if (!serverQueue) {
-        const queue: Queue = {
+        const queueObj: Queue = {
             textChannel: textChannel,
             voiceChannel: voiceChannel,
             playing: true,
@@ -86,15 +89,15 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
             connection: null,
             volume: 5
         };
-        songQueue[msg.guild.id] = queue;
-        queue.songs.push(song);
+        songQueue[msg.guild.id] = queueObj;
+        queueObj.songs.push(song);
         try {
             let connection = await voiceChannel.join();
-            queue.connection = connection;
+            queueObj.connection = connection;
             msg.channel.send(
                 `:thumbsup: **Joined** \`${voiceChannel.name}\` \n:page_facing_up: **Bound to** \`${textChannel.name}\` \n:loud_sound: **Searching** :mag_right: \`${song.url}\` \n**Playing** :notes: \`${song.title}\` `
             );
-            play(msg.guild, queue.songs[0]);
+            play(msg.guild, queueObj.songs[0]);
         } catch (error) {
             console.log(error);
             delete songQueue[msg.guild.id];
@@ -104,6 +107,27 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
         serverQueue.songs.push(song);
         return msg.channel.send(`**${song.title}** has been added to the queue!`);
     }
+
+}
+
+async function queue(msg: Message, serverQueue: Queue) {
+    if (!msg.member.voice) {
+        return msg.channel.send(`You must be in a voice channel to execute this command`);
+    }
+    const embededMessage: MessageEmbed = new MessageEmbed();
+    embededMessage.setColor('#0099ff')
+        .setTitle('Queue');
+
+    for (const song of serverQueue.songs) {
+        embededMessage.addFields(
+            {
+                name: song.messageAuthor,
+                value: song.title
+            }
+        )
+    }
+    return msg.channel.send(embededMessage);
+
 
 }
 
