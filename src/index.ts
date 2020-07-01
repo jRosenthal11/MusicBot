@@ -52,9 +52,9 @@ client.on('message', msg => {
     } else if (msg.content.startsWith(`${prefix}q`)) {
         queue(msg, serverQueue);
         return;
-
     } else {
         msg.channel.send('You need to enter a valid command!');
+        return;
     }
 });
 
@@ -105,13 +105,18 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
             return msg.channel.send(error);
         }
     } else {
+        let inQueue = true;
         for (const s of serverQueue.songs) {
             if (s.title === song.title && s.url === song.url) {
                 return msg.channel.send(`**${song.messageAuthor}** already added \`${song.title}\` to the queue. Please add a different song`);
+            } else {
+                inQueue = false;
             }
         }
-        serverQueue.songs.push(song);
-        return msg.channel.send(`**${song.title}** has been added to the queue!`);
+        if (!inQueue) {
+            serverQueue.songs.push(song);
+            return msg.channel.send(`**${song.title}** has been added to the queue!`);
+        }
     }
 
 }
