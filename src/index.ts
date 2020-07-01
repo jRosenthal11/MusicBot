@@ -29,16 +29,16 @@ client.on('message', msg => {
     }
 
     const serverQueue: Queue = songQueue[msg.guild.id];
-    if (msg.content.startsWith(`${prefix}test`)) {
+    if (msg.content.startsWith(`${prefix}play`)) {
         executeCommand(msg, serverQueue);
         return;
-    } else if (msg.content.startsWith(`${prefix}>`)) {
+    } else if (msg.content.startsWith(`${prefix}skip`)) {
         skip(msg, serverQueue);
         return;
-    } else if (msg.content.startsWith(`${prefix}:`)) {
+    } else if (msg.content.startsWith(`${prefix}stop`)) {
         stop(msg, serverQueue);
         return;
-    } else if (msg.content.startsWith(`${prefix}f>`)) {
+    } else if (msg.content.startsWith(`${prefix}fs`)) {
         forceSkip(msg, serverQueue);
         return;
     } else if (msg.content.startsWith(`${prefix}help`)) {
