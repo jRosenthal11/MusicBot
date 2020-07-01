@@ -46,3 +46,5 @@ All commands will start with the prefix `!` unless you specify a different ident
  1. `!fs`: Force skip will bypass the voting system to skip a song. (Only a user with specific privileges specified in the config.json will be able to force skip). Force skipping will also skip a song even if it is the last one in the queue and disconnect the bot from the channel.
 
  1. `!stop`: Stop will disconnect the bot from the current voice channel and clear the song queue.
+
+ 1. `!q`: Will list the songs in the current queue. (Who added the song, and the song title)
