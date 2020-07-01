@@ -51,6 +51,7 @@ client.on('message', msg => {
         return;
     } else if (msg.content.startsWith(`${prefix}q`)) {
         queue(msg, serverQueue);
+        return;
 
     } else {
         msg.channel.send('You need to enter a valid command!');
