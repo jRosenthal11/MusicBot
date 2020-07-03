@@ -1,5 +1,5 @@
 import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed, User } from 'discord.js';
-import { prefix, token, commandURL } from './Config';
+import { prefix, token, commandURL, chName } from './Config';
 import ytdl = require('ytdl-core');
 import { Song } from './models/Song';
 import { Queue } from './models/Queue';
@@ -24,38 +24,38 @@ client.once("shardDisconnect", (event, shardID) => {
 
 
 client.on('message', msg => {
-    if (msg.author.bot || !msg.content.startsWith(prefix)) {
-        return;
+    const textChannel: TextChannel = msg.channel as TextChannel;
+    if (textChannel.name === chName) {
+        if (msg.author.bot || !msg.content.startsWith(prefix)) {
+            return;
+        }
+        const serverQueue: Queue = songQueue[msg.guild.id];
+        if (msg.content.startsWith(`${prefix}play`)) {
+            executeCommand(msg, serverQueue);
+            return;
+        } else if (msg.content.startsWith(`${prefix}skip`)) {
+            skip(msg, serverQueue);
+            return;
+        } else if (msg.content.startsWith(`${prefix}stop`)) {
+            stop(msg, serverQueue);
+            return;
+        } else if (msg.content.startsWith(`${prefix}fs`)) {
+            forceSkip(msg, serverQueue);
+            return;
+        } else if (msg.content.startsWith(`${prefix}help`)) {
+            const embededMessage: MessageEmbed = new MessageEmbed();
+            embededMessage.setColor('#0099ff')
+                .setTitle('Click here')
+                .setURL(`${commandURL}`)
+                .setDescription('To see the list of commands');
+            msg.channel.send(embededMessage);
+            return;
+        } else if (msg.content.startsWith(`${prefix}q`)) {
+            queue(msg, serverQueue);
+            return;
+        }
     }
 
-    const serverQueue: Queue = songQueue[msg.guild.id];
-    if (msg.content.startsWith(`${prefix}play`)) {
-        executeCommand(msg, serverQueue);
-        return;
-    } else if (msg.content.startsWith(`${prefix}skip`)) {
-        skip(msg, serverQueue);
-        return;
-    } else if (msg.content.startsWith(`${prefix}stop`)) {
-        stop(msg, serverQueue);
-        return;
-    } else if (msg.content.startsWith(`${prefix}fs`)) {
-        forceSkip(msg, serverQueue);
-        return;
-    } else if (msg.content.startsWith(`${prefix}help`)) {
-        const embededMessage: MessageEmbed = new MessageEmbed();
-        embededMessage.setColor('#0099ff')
-            .setTitle('Click here')
-            .setURL(`${commandURL}`)
-            .setDescription('To see the list of commands');
-        msg.channel.send(embededMessage);
-        return;
-    } else if (msg.content.startsWith(`${prefix}q`)) {
-        queue(msg, serverQueue);
-        return;
-    } else {
-        msg.channel.send('You need to enter a valid command!');
-        return;
-    }
 });
 
 
