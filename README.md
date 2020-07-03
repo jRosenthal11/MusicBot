@@ -23,9 +23,22 @@ The file should look like this
     "apiToken": "",
     "commandPrefix": "!",
     "helpURL": "",
-    "channelName": ""
+    "channelName": "",
+    "altBotName": ""
 }
  ```
+ 
+This bot is setup to utilize two music bots in the same server. If you have 2 music bots you will have to give the alternate bot name in the config.json.
+
+Ex: 
+
+**Bot1**
+ 1. Name: `Tunes`
+ 2. AltBotName: `Tunes2`
+ 
+**Bot2**
+ 1. Name: `Tunes2`
+ 2. AltBotName: `Tunes`
 
  Once all the depndencies are installed type `tsc`. This will transpile the Typescript project down to Javascript to allow the project to run. Once that completes you are ready to launch the bot.
 
