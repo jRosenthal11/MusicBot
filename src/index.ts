@@ -1,5 +1,5 @@
 import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed, User } from 'discord.js';
-import { prefix, token, commandURL, chName } from './Config';
+import { prefix, token, commandURL, chName, alternateBotName } from './Config';
 import ytdl = require('ytdl-core');
 import { Song } from './models/Song';
 import { Queue } from './models/Queue';
@@ -7,7 +7,7 @@ import { SongQueue } from './models/SongQueue';
 
 // login to Discord with your app's token
 const client = new Client();
-const songQueue: SongQueue = {};
+let songQueue: SongQueue = {};
 let totalVotes = 0;
 let skipMsg: User[] = [];
 
@@ -72,10 +72,10 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
     }
     let botInChannel;
     voiceChannel.members.forEach(mem => {
-        if (mem.user.bot) {
+        if (mem.displayName.includes(alternateBotName)) {
             return botInChannel = true;
         }
-        return botInChannel = false;
+        botInChannel = false;
     });
     if (botInChannel) {
         return msg.channel.send(`Cannot join **${voiceChannel.name}** bot is already in channel`);
