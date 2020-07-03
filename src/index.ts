@@ -70,6 +70,16 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
     if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
         return msg.channel.send("I need permissions to join the channel");
     }
+    let botInChannel;
+    voiceChannel.members.forEach(mem => {
+        if (mem.user.bot) {
+            return botInChannel = true;
+        }
+        return botInChannel = false;
+    });
+    if (botInChannel) {
+        return msg.channel.send(`Cannot join **${voiceChannel.name}** bot is already in channel`);
+    }
     if (!songURL[1]) {
         return msg.channel.send('You did not provide a url for the song. !play <songURL>');
     }

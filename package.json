@@ -16,6 +16,7 @@
     "commonjs": "0.0.1",
     "discord.js": "^12.2.0",
     "ffmpeg": "0.0.4",
+    "ffmpeg-static": "^4.2.5",
     "fluent-ffmpeg": "^2.1.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5",
