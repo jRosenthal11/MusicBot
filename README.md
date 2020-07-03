@@ -23,7 +23,7 @@ The file should look like this
     "apiToken": "",
     "commandPrefix": "!",
     "helpURL": "",
-    "fsPermissions": ""
+    "channelName": ""
 }
  ```
 
@@ -38,6 +38,9 @@ The file should look like this
  # Commands
 
 All commands will start with the prefix `!` unless you specify a different identifier in your `config.json`.
+
+The **Channel Name** configuration in the config.json will allow you to specify which channel this bot will listen to commands in.
+With this config you can create several music bots in your discord, each utilizing a different channel to listen to music in.
 
  1. `!play <url>`: Play will add a song to the queue and begin playing the song in the voice channel you are in.
 
