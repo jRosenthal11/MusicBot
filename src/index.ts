@@ -71,7 +71,7 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
         return msg.channel.send("I need permissions to join the channel");
     }
     if (!songURL[1]) {
-        return msg.channel.send('You did not provide a url for the song. !test <songURL>');
+        return msg.channel.send('You did not provide a url for the song. !play <songURL>');
     }
     const songInfo = await ytdl.getInfo(songURL[1]);
 
