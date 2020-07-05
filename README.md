@@ -23,9 +23,22 @@ The file should look like this
     "apiToken": "",
     "commandPrefix": "!",
     "helpURL": "",
-    "fsPermissions": ""
+    "channelName": "",
+    "altBotName": ""
 }
  ```
+ 
+This bot is setup to utilize two music bots in the same server. If you have 2 music bots you will have to give the alternate bot name in the config.json.
+
+Ex: 
+
+**Bot1**
+ 1. Name: `Tunes`
+ 2. AltBotName: `Tunes2`
+ 
+**Bot2**
+ 1. Name: `Tunes2`
+ 2. AltBotName: `Tunes`
 
  Once all the depndencies are installed type `tsc`. This will transpile the Typescript project down to Javascript to allow the project to run. Once that completes you are ready to launch the bot.
 
@@ -38,6 +51,9 @@ The file should look like this
 
 All commands will start with the prefix `!` unless you specify a different identifier in your `config.json`.
 
+The **Channel Name** configuration in the config.json will allow you to specify which channel this bot will listen to commands in.
+With this config you can create several music bots in your discord, each utilizing a different channel to listen to music in.
+
  1. `!play <url>`: Play will add a song to the queue and begin playing the song in the voice channel you are in.
 
  1. `!skip`: With 3 votes you are able to skip the current song that is playing. However, if there is only 1 song in the queue you will not be able to skip it.
@@ -45,3 +61,5 @@ All commands will start with the prefix `!` unless you specify a different ident
  1. `!fs`: Force skip will bypass the voting system to skip a song. (Only a user with specific privileges specified in the config.json will be able to force skip). Force skipping will also skip a song even if it is the last one in the queue and disconnect the bot from the channel.
 
  1. `!stop`: Stop will disconnect the bot from the current voice channel and clear the song queue.
+
+ 1. `!q`: Will list the songs in the current queue. (Who added the song, and the song title)
