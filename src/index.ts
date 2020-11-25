@@ -86,8 +86,8 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
     const songInfo = await ytdl.getInfo(songURL[1]);
 
     const song: Song = {
-        title: songInfo.title,
-        url: songInfo.video_url,
+        title: songInfo.videoDetails.title,
+        url: songInfo.videoDetails.video_url,
         messageAuthor: msg.author.username
     };
 
