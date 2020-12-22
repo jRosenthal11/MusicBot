@@ -103,8 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# Configuration
-src/*.json
 
 # VsCode
 *.code-workspace

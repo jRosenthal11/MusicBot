@@ -1,15 +1,17 @@
 import { Client, Message, VoiceChannel, Guild, TextChannel, StreamDispatcher, MessageEmbed, User } from 'discord.js';
-import { prefix, token, commandURL, chName, alternateBotName } from './Config';
+import { prefix, token, commandURL, chName } from './Config';
 import ytdl = require('ytdl-core');
 import { Song } from './models/Song';
 import { Queue } from './models/Queue';
 import { SongQueue } from './models/SongQueue';
+import * as env from 'dotenv';
 
 // login to Discord with your app's token
 const client = new Client();
 let songQueue: SongQueue = {};
 let totalVotes = 0;
 let skipMsg: User[] = [];
+env.config();
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -69,16 +71,6 @@ async function executeCommand(msg: Message, serverQueue: Queue) {
     const permissions = voiceChannel.permissionsFor(msg.client.user);
     if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
         return msg.channel.send("I need permissions to join the channel");
-    }
-    let botInChannel;
-    voiceChannel.members.forEach(mem => {
-        if (mem.displayName.includes(alternateBotName)) {
-            return botInChannel = true;
-        }
-        botInChannel = false;
-    });
-    if (botInChannel) {
-        return msg.channel.send(`Cannot join **${voiceChannel.name}** bot is already in channel`);
     }
     if (!songURL[1]) {
         return msg.channel.send('You did not provide a url for the song. !play <songURL>');
