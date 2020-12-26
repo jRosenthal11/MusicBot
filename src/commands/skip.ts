@@ -1,10 +1,13 @@
-import { Message, User } from "discord.js";
-import { Queue } from "../models/Queue";
+import { Command, CommandArgs } from "../models/Command";
 
-module.exports = {
+export = {
     name: 'skip',
-    description: 'Play song',
-    execute(msg: Message, serverQueue: Queue, skipMsg: User[], totalVotes: number) {
+    description: 'skip song',
+    execute(commandArgs: CommandArgs) {
+        const msg = commandArgs.msg;
+        const serverQueue = commandArgs.serverQueue;
+        const skipMsg = commandArgs.skipMsg;
+        let totalVotes = commandArgs.totalVotes;
         if (!msg.member.voice.channel) {
             return msg.channel.send('You must be in a voice channel to skip a song!');
         }
@@ -18,16 +21,14 @@ module.exports = {
                 totalVotes++;
                 if (totalVotes === 3) {
                     serverQueue.connection.dispatcher.end();
-                    totalVotes = 0;
-                    skipMsg = [];
+                    commandArgs.totalVotes = 0;
+                    commandArgs.skipMsg = [];
                     msg.channel.send(`Song skipped`);
                     return;
                 }
             }
-
             msg.channel.send(`To skip this song you need 3 votes. **Total votes**: \`${totalVotes}/3\``);
         }
-
     }
 
-}
+} as Command;
