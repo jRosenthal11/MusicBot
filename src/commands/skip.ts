@@ -12,14 +12,13 @@ export = {
         if (serverQueue.songs.length === 1) {
             return msg.channel.send('There is no song in the queue to skip!');
         } else {
-            if (commandArgs.totalVotes.get(commandArgs.serverQueue.songs[0])?.get(msg.author)) {
+            if (commandArgs.totalVotes.get(msg.author)) {
                 return msg.channel.send(`You can not vote twice \`${msg.author.username}\``);
             } else {
-                console.log(commandArgs.totalVotes.size);
-                commandArgs.totalVotes.set(commandArgs.serverQueue.songs[0], new Map().set(msg.author, 1));
+                commandArgs.totalVotes.set(msg.author, commandArgs.serverQueue.songs[0]);
                 if (commandArgs.totalVotes.size === 3) {
                     serverQueue.connection.dispatcher.end();
-                    delete commandArgs.totalVotes;
+                    commandArgs.totalVotes.clear();
                     msg.channel.send(`Song skipped`);
                     return;
                 }

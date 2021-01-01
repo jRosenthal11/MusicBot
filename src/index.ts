@@ -10,7 +10,7 @@ import { Song } from './models/Song';
 
 const client = new Client();
 let songQueue: SongQueue = {};
-let totalVotes = new Map<Song, Map<User, number>>();
+let totalVotes = new Map<User, Song>();
 env.config();
 
 client.on('ready', () => {

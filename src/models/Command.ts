@@ -12,5 +12,5 @@ export interface CommandArgs {
     songQueue: SongQueue;
     msg: Message;
     serverQueue: Queue;
-    totalVotes: Map<Song, Map<User, number>>;
+    totalVotes: Map<User, Song>;
 }
