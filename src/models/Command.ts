@@ -1,6 +1,5 @@
-import { Guild, Message, User } from "discord.js";
+import { Message, User } from "discord.js";
 import { Queue } from "./Queue";
-import { Song } from "./Song";
 import { SongQueue } from "./SongQueue";
 
 export interface Command {
