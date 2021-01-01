@@ -22,7 +22,8 @@ The file should look like this
  {
     "commandPrefix": "",
     "helpURL": "",
-    "channelName": ""
+    "channelName": "",
+    "fsRole":""
 }
  ```
 
