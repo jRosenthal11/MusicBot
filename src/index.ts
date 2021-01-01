@@ -71,14 +71,6 @@ client.on('message', msg => {
             songQueue: songQueue,
             skipMsg: skipMsg
         });
-
-        /*  if (commandFile.args && args.length < 1) {
-             let reply = `You didn't provide any arguments`;
-             if (commandFile.usage) {
-                 reply += `\nThe proper usage would be: \`${prefix}${commandFile.name} ${commandFile.usage}\``;
-             }
-             return msg.author.send(reply);
-         } */
     }
 
 });

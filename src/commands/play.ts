@@ -57,11 +57,11 @@ export ={
                         .play(ytdl(s.url))
                         .on("finish", () => {
                             serverQueue.songs.shift();
-                            this.play(commandArgs.msg.guild, serverQueue.songs[0]);
+                            play(serverQueue.songs[0]);
                         })
                         .on("error", error => console.error(error));
                     playSong.setVolumeLogarithmic(serverQueue.volume / 5);
-                    serverQueue.textChannel.send(`\n\n**Start playing**: ${song.title}`);
+                    serverQueue.textChannel.send(`\n\n**Start playing**: ${s.title}`);
                 }
                 play(song);
             } catch (error) {
