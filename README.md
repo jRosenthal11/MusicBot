@@ -3,6 +3,11 @@
 This bot is open source so you can download the code and setup your own bot on your server.
 
 
+- [Setup](#Setup)
+- [config.json](#config.json)
+ - [Commands](#Commands)
+# Setup
+
 After downloading the git repository you will need to install:
  
  1. Node Js
@@ -17,7 +22,7 @@ After downloading the git repository you will need to install:
 The file should look like this
 
 
-`config.json`
+# `config.json`
  ```json
  {
     "commandPrefix": "",
