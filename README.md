@@ -18,21 +18,22 @@ The file should look like this
 
 
 `config.json`
- ```
+ ```json
  {
-    "apiToken": "",
-    "commandPrefix": "!",
+    "commandPrefix": "",
     "helpURL": "",
     "channelName": ""
 }
  ```
 
+In the root directory of your project add a file named `.env`. Then add the following property and populate it with your discord token.
+```
+DISCORD_TOEKN=
+```
 
  Once all the depndencies are installed type `tsc`. This will transpile the Typescript project down to Javascript to allow the project to run. Once that completes you are ready to launch the bot.
 
  Type `npm run start` and your bot will start up and start listening to commands!
-
-
 
 
  # Commands
@@ -46,7 +47,7 @@ With this config you can create several music bots in your discord, each utilizi
 
  1. `!skip`: With 3 votes you are able to skip the current song that is playing. However, if there is only 1 song in the queue you will not be able to skip it.
 
- 1. `!fs`: Force skip will bypass the voting system to skip a song. (Only a user with specific privileges specified in the config.json will be able to force skip). Force skipping will also skip a song even if it is the last one in the queue and disconnect the bot from the channel.
+ 1. `!forceskip`: Force skip will bypass the voting system to skip a song. (Only a user with specific privileges specified in the config.json will be able to force skip). Force skipping will also skip a song even if it is the last one in the queue and disconnect the bot from the channel.
 
  1. `!stop`: Stop will disconnect the bot from the current voice channel and clear the song queue.
 

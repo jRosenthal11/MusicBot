@@ -18,7 +18,7 @@ export = {
                     name: song.messageAuthor,
                     value: song.title
                 }
-            )
+            );
         }
         return commandArgs.msg.channel.send(embededMessage);
     }

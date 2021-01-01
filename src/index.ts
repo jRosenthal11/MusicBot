@@ -1,5 +1,5 @@
 import { Client, TextChannel, User, Collection } from 'discord.js';
-import { prefix, chName } from './Config';
+import { prefix, chName, fsRoleID } from './Config';
 import ytdl = require('ytdl-core');
 import { Queue } from './models/Queue';
 import { SongQueue } from './models/SongQueue';
@@ -60,6 +60,9 @@ client.on('message', msg => {
             return;
         }
         if (commands.size < 1) {
+            return;
+        }
+        if (commandFile.name === 'forceskip' && !msg.guild.member(msg.author).roles.cache.has(fsRoleID)) {
             return;
         }
         const serverQueue: Queue = songQueue[msg.guild.id];
