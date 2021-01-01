@@ -28,7 +28,7 @@ The file should look like this
 
 In the root directory of your project add a file named `.env`. Then add the following property and populate it with your discord token.
 ```
-DISCORD_TOEKN=
+DISCORD_TOKEN=
 ```
 
  Once all the depndencies are installed type `tsc`. This will transpile the Typescript project down to Javascript to allow the project to run. Once that completes you are ready to launch the bot.
