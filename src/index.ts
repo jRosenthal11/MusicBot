@@ -6,11 +6,11 @@ import { SongQueue } from './models/SongQueue';
 import * as env from 'dotenv';
 import { readdir } from 'fs';
 import { Command } from './models/Command';
+import { Song } from './models/Song';
 
 const client = new Client();
 let songQueue: SongQueue = {};
-let totalVotes = 0;
-let skipMsg: User[] = [];
+let totalVotes = new Map<Song, Map<User, number>>();
 env.config();
 
 client.on('ready', () => {
@@ -68,8 +68,7 @@ client.on('message', msg => {
             msg: msg,
             serverQueue: serverQueue,
             totalVotes: totalVotes,
-            songQueue: songQueue,
-            skipMsg: skipMsg
+            songQueue: songQueue
         });
     }
 

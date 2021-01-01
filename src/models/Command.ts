@@ -1,5 +1,6 @@
 import { Message, User } from "discord.js";
 import { Queue } from "./Queue";
+import { Song } from "./Song";
 import { SongQueue } from "./SongQueue";
 
 export interface Command {
@@ -11,6 +12,5 @@ export interface CommandArgs {
     songQueue: SongQueue;
     msg: Message;
     serverQueue: Queue;
-    skipMsg: User[];
-    totalVotes: number;
+    totalVotes: Map<Song, Map<User, number>>;
 }
