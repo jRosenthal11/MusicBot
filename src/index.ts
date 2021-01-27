@@ -52,9 +52,6 @@ client.on('message', msg => {
             return;
         }
         const command = args.shift()!.toLowerCase();
-        if (!msg.content.startsWith(prefix) || msg.author.bot) {
-            return;
-        }
         const commandFile = commands.get(command) as Command;
         if (!commandFile) {
             return;
